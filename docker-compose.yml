@@ -1,0 +1,31 @@
+version: '2'
+services:
+        web:
+                build:
+                        context: ./API
+                        dockerfile: Dockerfile
+                restart: always
+                ports:
+                        - "8080:8080"
+                depends_on:
+                        - redis
+                        - mongo
+                volumes:
+                        - my_app_project:/my_app_storage
+        worker:
+                build:
+                        context: ./worker
+                        dockerfile: Dockerfile
+                depends_on:
+                        - redis
+                        - mongo
+                volumes:
+                        - my_app_project:/my_app_storage
+        redis:
+                image: redis
+        mongo:
+                image: mongo
+volumes:
+        my_app_project:
+              
+               
